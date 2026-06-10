@@ -268,11 +268,36 @@ async function callTool(name, args){
 
 var REPLY_RULES = "You are drafting an email reply AS Peter Te Hau, Founder of TGS Media. Output ONLY the email body text, nothing else. Rules: no signature, no sign-off, no name, because Gmail auto-appends his signature. Never use em dashes. Warm, direct, concise New Zealand business tone. Open with 'Hey <first name>,' for someone he knows, or 'Hi <first name>,' for a formal or first contact. ROUTING: if this is a sales inquiry or someone wanting services like ads, marketing, an AI receptionist or a voice bot, Peter never takes sales calls, so warmly hand them to his sales team and include this booking link for Keith or Ayla: https://api.leadconnectorhq.com/widget/bookings/ultimate-lead-conversion-call . If an existing client asks for a meeting with Peter, point them to the client WhatsApp group and note that Bernice (bernice@tgsmedia.org) arranges meetings. Otherwise reply normally and helpfully. If a price, number, date, or decision is needed that you cannot know, insert a clear [ FILL IN: ... ] placeholder. Keep it short unless it is a proposal.";
 
+var DRAFT_KEY = "TGS-INBOX-7f3a9c2e";
+function openCompose(c, body){
+  var subj = /^re:/i.test(c.subject) ? c.subject : ("Re: " + c.subject);
+  var u = "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent((c.to||[]).join(","));
+  if(c.cc && c.cc.length){ u += "&cc=" + encodeURIComponent(c.cc.join(",")); }
+  u += "&su=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(body);
+  window.open(u, "_blank", "noopener");
+}
+async function websiteDraft(c, btn){
+  btn.disabled = true; btn.textContent = "Drafting...";
+  try{
+    var resp = await fetch("/api/draft", { method:"POST",
+      headers:{ "content-type":"application/json", "x-tgs-key":DRAFT_KEY },
+      body: JSON.stringify({ subject:c.subject, who:c.who, company:c.company, context:(c.context||c.snippet||"") }) });
+    var data = await resp.json();
+    if(!resp.ok || !data.body){ throw new Error(data.error || "no reply"); }
+    openCompose(c, data.body);
+    btn.textContent = "Opened in Gmail ✓"; btn.classList.add("created");
+    setTimeout(function(){ btn.disabled=false; btn.textContent="Draft Reply"; btn.classList.remove("created"); }, 4000);
+  }catch(e){
+    btn.disabled=false; btn.textContent="Draft Reply";
+    toast("Could not draft here: " + (e.message||e) + ". Opening the email in Gmail.");
+    window.open(threadUrl(c.threadId), "_blank", "noopener");
+  }
+}
+
 async function draftReply(id, btn){
   var c = CARD_INDEX[id]; if(!c) return;
   if(!(window.cowork && window.cowork.callMcpTool && window.cowork.askClaude)){
-    toast("Auto-drafting runs in the Cowork app. Opening this email in Gmail so you can reply there.");
-    window.open(threadUrl(c.threadId), "_blank", "noopener"); return;
+    return websiteDraft(c, btn);
   }
   btn.disabled = true; btn.textContent = "Drafting...";
   try{
