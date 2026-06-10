@@ -125,51 +125,147 @@ function searchUrl(q){ return GMAIL + "search/" + encodeURIComponent(q); }
 
 /*INBOX_DATA_START*/
 window.INBOX_DATA = {
-  "generatedAt": "2026-06-10T12:30:00+12:00",
+  "generatedAt": "2026-06-10T14:05:00+12:00",
   "columns": {
     "needsReply": [
-      { "company":"Select Cleaning", "cat":"client", "who":"Antony Lewis", "subject":"Facebook lead Data",
-        "snippet":"Sent the April-to-date Facebook lead results with won, lost and unsuitable notes, and asked if you need anything else.",
-        "threadId":"19ea57a002e831e3", "replyTo":"19ea57a002e831e3",
-        "to":["antony.l@select.biz"], "cc":["udita.s@select.biz","bernice@tgsmedia.org"],
-        "note":"Reply when you can" },
-      { "company":"Keith / SEEK", "cat":"team", "who":"Keith Banfield", "subject":"SEEK Business Account Call Genius Pro is Overdue",
-        "snippet":"AUD $2,992 in arrears on the Call Genius Pro SEEK account, 30+ days. Keith asks how you want it handled.",
-        "threadId":"19ea5b3cfe73f503", "replyTo":"19ea5b3cfe73f503",
-        "to":["results@marketingsecrets.com.au"], "cc":[],
-        "note":"Your call: pay it or query it" },
-      { "company":"SUMO", "cat":"partner", "who":"Jethro Ingeniero", "subject":"Client Success Enablement Specialist (Candidate Endorsement)",
-        "snippet":"Chasing your feedback on candidate Martin for the CGP support role.",
-        "threadId":"19e967a28ecafbdf", "replyTo":"19eab04423622903",
-        "to":["jethro.ingeniero@setupmyoffshore.com.au"], "cc":["jess@setupmyoffshore.com.au","karen.cristobal@setupmyoffshore.com.au","jacel.jose@setupmyoffshore.com.au","careers@setupmyoffshore.com.au"],
-        "note":"Your decision on Martin" }
+      {
+        "company": "ICIB",
+        "cat": "client",
+        "who": "Paul Callaghan",
+        "subject": "Service Ticket #3649309 - Lead Connector / Calendly",
+        "snippet": "Hit a wall on Lead Connector access. Paul wants to go with Calendly and is asking you to arrange a meeting to finalise.",
+        "threadId": "19e6765ea94251dc",
+        "replyTo": "19eaf38cc1b313ea",
+        "to": [
+          "paul.callaghan@icib.co.nz"
+        ],
+        "cc": [
+          "bernice@tgsmedia.org"
+        ],
+        "context": "Hi Peter, Looks like we have hit a wall again. Let's go back to the plan of using Calendly and move forward. Please arrange another time to meet with me to finalise this.",
+        "note": "Client meeting request, route to Bernice to set the time"
+      },
+      {
+        "company": "Select Cleaning",
+        "cat": "client",
+        "who": "Antony Lewis",
+        "subject": "Facebook lead Data",
+        "snippet": "Sent the April-to-date Facebook lead results with won, lost and unsuitable notes, and asked if you need anything else.",
+        "threadId": "19ea57a002e831e3",
+        "replyTo": "19ea57a002e831e3",
+        "to": [
+          "antony.l@select.biz"
+        ],
+        "cc": [
+          "udita.s@select.biz",
+          "bernice@tgsmedia.org"
+        ],
+        "note": "Reply when you can"
+      },
+      {
+        "company": "Keith / SEEK",
+        "cat": "team",
+        "who": "Keith Banfield",
+        "subject": "SEEK Business Account Call Genius Pro is Overdue",
+        "snippet": "AUD $2,992 in arrears on the Call Genius Pro SEEK account, 30+ days. Keith asks how you want it handled.",
+        "threadId": "19ea5b3cfe73f503",
+        "replyTo": "19ea5b3cfe73f503",
+        "to": [
+          "results@marketingsecrets.com.au"
+        ],
+        "cc": [],
+        "note": "Your call: pay it or query it"
+      },
+      {
+        "company": "SUMO",
+        "cat": "partner",
+        "who": "Jethro Ingeniero",
+        "subject": "Client Success Enablement Specialist (Candidate Endorsement)",
+        "snippet": "Chasing your feedback on candidate Martin for the CGP support role.",
+        "threadId": "19e967a28ecafbdf",
+        "replyTo": "19eab04423622903",
+        "to": [
+          "jethro.ingeniero@setupmyoffshore.com.au"
+        ],
+        "cc": [
+          "jess@setupmyoffshore.com.au",
+          "karen.cristobal@setupmyoffshore.com.au",
+          "jacel.jose@setupmyoffshore.com.au",
+          "careers@setupmyoffshore.com.au"
+        ],
+        "note": "Your decision on Martin"
+      }
     ],
     "routedTeam": [
-      { "company":"Voice Cloud (Ray White)", "cat":"prospect", "who":"David & Chris", "subject":"Potential Customer - Ray White Real Estate",
-        "snippet":"New prospect wanting an AI receptionist with TAPI, Property Me and Snug. Draft Reply will route them to the Keith and Ayla booking link, no time from you.",
-        "threadId":"19eab04b1577b621", "replyTo":"19eab04b1577b621",
-        "to":["hello@voiceclouddigital.com.au"], "cc":["sales@voiceclouddigital.com.au"],
-        "note":"Sales, routes to the team", "ok":true }
+      {
+        "company": "Voice Cloud (Ray White)",
+        "cat": "prospect",
+        "who": "David & Chris",
+        "subject": "Potential Customer - Ray White Real Estate",
+        "snippet": "New prospect wanting an AI receptionist with TAPI, Property Me and Snug. Draft Reply will route them to the Keith and Ayla booking link, no time from you.",
+        "threadId": "19eab04b1577b621",
+        "replyTo": "19eab04b1577b621",
+        "to": [
+          "hello@voiceclouddigital.com.au"
+        ],
+        "cc": [
+          "sales@voiceclouddigital.com.au"
+        ],
+        "note": "Sales, routes to the team",
+        "ok": true
+      }
     ],
     "flags": [
-      { "company":"Inland Revenue", "cat":"flag", "subject":"GST default assessment",
-        "snippet":"New IRD letter for TGS Media Limited, payment and return required. Log into myIR.",
-        "q":"from:ird.govt.nz", "note":"Time sensitive" },
-      { "company":"Make", "cat":"flag", "subject":"Pipedrive to GHL sync stopped",
-        "snippet":"Contact-creation scenario deactivated on an error. New contacts may not be syncing.",
-        "q":"from:make.com", "note":"Needs a restart" },
-      { "company":"SMS Gateway", "cat":"flag", "subject":"Two Android gateways offline",
-        "snippet":"myCRMSIM phones reported offline. This is the client SMS sending path.",
-        "q":"from:mysmsgateway.app", "note":"Check the devices" },
-      { "company":"DangerDigital", "cat":"flag", "subject":"Invoice INV-0282, NZ$6,477.19",
-        "snippet":"COO May revenue share, was due 5 June.", "q":"INV-0282", "note":"Unpaid" },
-      { "company":"SUMO AUS", "cat":"flag", "subject":"Invoice INV-5717, AU$2,301.12",
-        "snippet":"Call Genius Pro, was due 8 June.", "q":"INV-5717", "note":"Unpaid" },
-      { "company":"Google Drive", "cat":"flag", "subject":"Two file access requests",
-        "snippet":"Ayla wants TGS Clients Master File, Matt wants TGS_Revenue_May_2026.",
-        "q":"requesting access", "note":"One click each in Drive" }
+      {
+        "company": "Inland Revenue",
+        "cat": "flag",
+        "subject": "GST default assessment",
+        "snippet": "New IRD letter for TGS Media Limited, payment and return required. Log into myIR.",
+        "q": "from:ird.govt.nz",
+        "note": "Time sensitive"
+      },
+      {
+        "company": "Make",
+        "cat": "flag",
+        "subject": "Pipedrive to GHL sync stopped",
+        "snippet": "Contact-creation scenario deactivated on an error. New contacts may not be syncing.",
+        "q": "from:make.com",
+        "note": "Needs a restart"
+      },
+      {
+        "company": "SMS Gateway",
+        "cat": "flag",
+        "subject": "Two Android gateways offline",
+        "snippet": "myCRMSIM phones reported offline. This is the client SMS sending path.",
+        "q": "from:mysmsgateway.app",
+        "note": "Check the devices"
+      },
+      {
+        "company": "DangerDigital",
+        "cat": "flag",
+        "subject": "Invoice INV-0282, NZ$6,477.19",
+        "snippet": "COO May revenue share, was due 5 June.",
+        "q": "INV-0282",
+        "note": "Unpaid"
+      },
+      {
+        "company": "SUMO AUS",
+        "cat": "flag",
+        "subject": "Invoice INV-5717, AU$2,301.12",
+        "snippet": "Call Genius Pro, was due 8 June.",
+        "q": "INV-5717",
+        "note": "Unpaid"
+      },
+      {
+        "company": "Google Drive",
+        "cat": "flag",
+        "subject": "Two file access requests",
+        "snippet": "Ayla wants TGS Clients Master File, Matt wants TGS_Revenue_May_2026.",
+        "q": "requesting access",
+        "note": "One click each in Drive"
+      }
     ],
-    "automatedCount": 22
+    "automatedCount": 23
   }
 };
 /*INBOX_DATA_END*/
