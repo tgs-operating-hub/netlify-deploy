@@ -29,6 +29,8 @@
   .gbtn{background:var(--accent);color:#04130b;text-decoration:none;font-weight:700;font-size:13px;
     padding:9px 15px;border-radius:8px;white-space:nowrap;border:none;cursor:pointer;}
   .gbtn:hover{filter:brightness(1.08);}
+  .syncbtn{background:transparent;border:1px solid var(--accent);color:var(--accent);}
+  .syncbtn:hover{background:rgba(25,227,125,.12);filter:none;}
   .statusline{padding:9px 22px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line);
     background:#0b0b0d;display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle;}
@@ -106,6 +108,7 @@
     </div>
     <div class="controls">
       <input id="search" class="search" placeholder="Filter cards...">
+      <button class="gbtn syncbtn" id="syncBtn" onclick="syncNow(this)">Sync now</button>
       <a class="gbtn" href="https://mail.google.com/mail/u/0/#drafts" target="_blank" rel="noopener">Open Gmail Drafts</a>
     </div>
   </div>
@@ -199,6 +202,19 @@ const setLS = (k,v) => { try{ localStorage.setItem(k, JSON.stringify(v)); }catch
 const esc = t => (t||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 const cardId = c => (c.company+"|"+c.subject).toLowerCase();
 const CARD_INDEX = {};
+
+function syncNow(btn){
+  if(window.cowork && window.cowork.runScheduledTask){
+    btn.disabled=true; btn.textContent="Syncing...";
+    try{ window.cowork.runScheduledTask("morning-inbox-brief"); }catch(e){}
+    toast("Sync started. Triaging your inbox and rebuilding the board, this refreshes in about two minutes.");
+    setTimeout(function(){ location.reload(); }, 120000);
+  } else {
+    btn.disabled=true; btn.textContent="Refreshing...";
+    toast("Pulling the latest published board...");
+    setTimeout(function(){ location.href = location.pathname + "?t=" + Date.now(); }, 600);
+  }
+}
 
 function cardHTML(c){
   CARD_INDEX[cardId(c)] = c;
