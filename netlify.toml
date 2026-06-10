@@ -1,9 +1,15 @@
-# Netlify config for TGS Media Inbox Command
-# Static site, no build step. The dashboard is a single self-contained index.html.
-
 [build]
   publish = "."
   command = ""
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/draft"
+  to = "/.netlify/functions/draft"
+  status = 200
 
 [[headers]]
   for = "/*"
