@@ -24,7 +24,7 @@
   .ttl .big{display:block;font-size:15px;letter-spacing:1.5px;color:var(--txt);margin-top:2px;}
   .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
   .search{background:var(--panel);border:1px solid var(--line);color:var(--txt);border-radius:8px;
-    padding:8px 12px;font-size:13px;width:190px;outline:none;}
+    padding:8px 12px;font-size:13px;width:180px;outline:none;}
   .search:focus{border-color:var(--accent);}
   .gbtn{background:var(--accent);color:#04130b;text-decoration:none;font-weight:700;font-size:13px;
     padding:9px 15px;border-radius:8px;white-space:nowrap;border:none;cursor:pointer;}
@@ -37,14 +37,14 @@
   .livebanner{margin:14px 22px 0;padding:12px 14px;border:1px solid var(--accent);border-radius:10px;
     background:rgba(25,227,125,.07);font-size:13px;display:none;}
   .livebanner h4{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);}
-  .livebanner a{color:var(--blue);text-decoration:none;} .livebanner a:hover{text-decoration:underline;}
+  .livebanner a{color:var(--blue);text-decoration:none;}
   .board{display:flex;gap:16px;padding:18px 22px 60px;overflow-x:auto;align-items:flex-start;}
   .col{flex:0 0 320px;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
   .col.collapsed .col-body{display:none;}
   .col-head{padding:14px 15px;border-bottom:1px solid var(--line);cursor:pointer;
     border-top:3px solid var(--grey);display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
-  .col-head .h-l h3{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;}
-  .col-head .h-l .csub{font-size:11px;color:var(--muted);margin-top:3px;}
+  .col-head h3{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;}
+  .col-head .csub{font-size:11px;color:var(--muted);margin-top:3px;}
   .col-head .h-r{display:flex;align-items:center;gap:9px;}
   .countpill{background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:2px 10px;
     font-size:12px;font-weight:700;color:var(--txt);}
@@ -75,12 +75,6 @@
   .genbtn:hover{filter:brightness(1.08);}
   .genbtn:disabled{opacity:.7;cursor:default;}
   .genbtn.created{background:#1f6b45;color:#cdebd9;}
-  .lnkbtn{background:none;border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:7px 10px;
-    font-size:12px;cursor:pointer;}
-  .lnkbtn:hover{border-color:#3a3a44;color:var(--txt);}
-  .preview{display:none;margin-top:10px;background:#0c0c0f;border:1px solid var(--line);border-radius:8px;
-    padding:10px 11px;font-size:12px;color:#cfcfd6;white-space:pre-wrap;line-height:1.5;}
-  .preview.open{display:block;}
   .c-foot{display:flex;align-items:center;justify-content:space-between;margin-top:11px;
     border-top:1px solid var(--line);padding-top:9px;}
   .c-foot a{font-size:12px;color:var(--blue);text-decoration:none;font-weight:600;}
@@ -120,44 +114,42 @@
 
   <div class="livebanner" id="liveBanner"></div>
   <div class="board" id="board"></div>
-  <footer>Click Generate Draft to create the reply in Gmail, then open Drafts and send. Nothing is ever sent automatically. Ticking a card marks it handled on this device.</footer>
+  <footer>Sync pulls your latest emails in. Click Draft Reply on a card to draft it in Gmail, then open Drafts and send. Nothing is ever sent automatically.</footer>
   <div id="toast"></div>
 
 <script>
+var GMAIL = "https://mail.google.com/mail/u/0/#";
+var GM_SERVER = "mcp__541320f4-c73a-48fa-a5e6-b214b56b0fa1__";
+function threadUrl(id){ return GMAIL + "inbox/" + id; }
+function searchUrl(q){ return GMAIL + "search/" + encodeURIComponent(q); }
+
 /*INBOX_DATA_START*/
 window.INBOX_DATA = {
-  "generatedAt": "2026-06-10T11:30:00+12:00",
-  "stats": { "needAction": 4, "routed": 1, "flags": 6 },
+  "generatedAt": "2026-06-10T12:30:00+12:00",
   "columns": {
-    "replyReady": [
+    "needsReply": [
       { "company":"Select Cleaning", "cat":"client", "who":"Antony Lewis", "subject":"Facebook lead Data",
-        "snippet":"Sent the April-to-date Facebook lead results with won, lost and unsuitable notes. Suggested reply thanks him and says you will review with Bernice.",
-        "threadId":"19ea57a002e831e3", "replyTo":"19ea57a002e831e3", "note":"Reply ready", "ok":true,
-        "reply": { "to":["antony.l@select.biz"], "cc":["udita.s@select.biz","bernice@tgsmedia.org"],
-          "subject":"Re: Facebook lead Data",
-          "body":"Hey Antony,\n\nThanks for putting this together. The notes against each lead are exactly what we need to see what is converting and where to tighten the targeting.\n\nI will go through it with Bernice and come back to you with anything we want to adjust on the campaign side." } }
-    ],
-    "needsInput": [
+        "snippet":"Sent the April-to-date Facebook lead results with won, lost and unsuitable notes, and asked if you need anything else.",
+        "threadId":"19ea57a002e831e3", "replyTo":"19ea57a002e831e3",
+        "to":["antony.l@select.biz"], "cc":["udita.s@select.biz","bernice@tgsmedia.org"],
+        "note":"Reply when you can" },
       { "company":"Keith / SEEK", "cat":"team", "who":"Keith Banfield", "subject":"SEEK Business Account Call Genius Pro is Overdue",
-        "snippet":"AUD $2,992 in arrears on the Call Genius Pro SEEK account, 30+ days. Reply is holding for your call.",
-        "threadId":"19ea5b3cfe73f503", "replyTo":"19ea5b3cfe73f503", "note":"Fill the decision before sending",
-        "reply": { "to":["results@marketingsecrets.com.au"], "cc":[],
-          "subject":"Re: FW: SEEK Business Account Call Genius Pro is Overdue",
-          "body":"Hey Keith,\n\nYes I have seen it.\n\n[ FILL IN: how to handle the $2,992 SEEK arrears, pay it down now or query the charges since the account was paused for June ]" } },
+        "snippet":"AUD $2,992 in arrears on the Call Genius Pro SEEK account, 30+ days. Keith asks how you want it handled.",
+        "threadId":"19ea5b3cfe73f503", "replyTo":"19ea5b3cfe73f503",
+        "to":["results@marketingsecrets.com.au"], "cc":[],
+        "note":"Your call: pay it or query it" },
       { "company":"SUMO", "cat":"partner", "who":"Jethro Ingeniero", "subject":"Client Success Enablement Specialist (Candidate Endorsement)",
         "snippet":"Chasing your feedback on candidate Martin for the CGP support role.",
-        "threadId":"19e967a28ecafbdf", "replyTo":"19eab04423622903", "note":"Fill the decision before sending",
-        "reply": { "to":["jethro.ingeniero@setupmyoffshore.com.au"], "cc":["jess@setupmyoffshore.com.au","karen.cristobal@setupmyoffshore.com.au","jacel.jose@setupmyoffshore.com.au","careers@setupmyoffshore.com.au"],
-          "subject":"Re: SUMO x Call Genius Pro - Client Success Enablement Specialist (Candidate Endorsement)",
-          "body":"Hi Jethro,\n\nThanks for the follow up, and sorry for the delay coming back to you on Martin.\n\n[ FILL IN: your decision on Martin, proceed to interview, endorse and onboard, or pass, plus any timing ]" } }
+        "threadId":"19e967a28ecafbdf", "replyTo":"19eab04423622903",
+        "to":["jethro.ingeniero@setupmyoffshore.com.au"], "cc":["jess@setupmyoffshore.com.au","karen.cristobal@setupmyoffshore.com.au","jacel.jose@setupmyoffshore.com.au","careers@setupmyoffshore.com.au"],
+        "note":"Your decision on Martin" }
     ],
     "routedTeam": [
       { "company":"Voice Cloud (Ray White)", "cat":"prospect", "who":"David & Chris", "subject":"Potential Customer - Ray White Real Estate",
-        "snippet":"New prospect wanting an AI receptionist with TAPI, Property Me and Snug. Suggested reply routes them to the Keith and Ayla booking link, no time from you.",
-        "threadId":"19eab04b1577b621", "replyTo":"19eab04b1577b621", "note":"Routed to sales", "ok":true,
-        "reply": { "to":["hello@voiceclouddigital.com.au"], "cc":["sales@voiceclouddigital.com.au"],
-          "subject":"Re: Potential Customer - Ray White Real Estate",
-          "body":"Hi David and Chris,\n\nGood to hear from you, and yes I remember the call. This is a great fit for what we do.\n\nI don't sit in on the initial scoping calls myself, but my sales lead will look after you on this one. An AI receptionist that takes the calls and pulls live status from TAPI, Property Me and Snug is exactly their wheelhouse.\n\nGrab a time that suits here and they will map it all out with you:\nhttps://api.leadconnectorhq.com/widget/bookings/ultimate-lead-conversion-call\n\nLooking forward to getting this one moving." } }
+        "snippet":"New prospect wanting an AI receptionist with TAPI, Property Me and Snug. Draft Reply will route them to the Keith and Ayla booking link, no time from you.",
+        "threadId":"19eab04b1577b621", "replyTo":"19eab04b1577b621",
+        "to":["hello@voiceclouddigital.com.au"], "cc":["sales@voiceclouddigital.com.au"],
+        "note":"Sales, routes to the team", "ok":true }
     ],
     "flags": [
       { "company":"Inland Revenue", "cat":"flag", "subject":"GST default assessment",
@@ -182,99 +174,197 @@ window.INBOX_DATA = {
 };
 /*INBOX_DATA_END*/
 
-const GM = "https://mail.google.com/mail/u/0/#";
-const threadUrl = id => GM + "inbox/" + id;
-const searchUrl = q => GM + "search/" + encodeURIComponent(q);
-const DRAFT_TOOL = "mcp__541320f4-c73a-48fa-a5e6-b214b56b0fa1__create_draft";
-
-const COLS = [
-  {key:"replyReady", title:"Reply Ready", sub:"One click to draft", color:"var(--green)"},
-  {key:"needsInput", title:"Needs Your Input", sub:"Fill, then draft", color:"var(--amber)"},
+var COLS = [
+  {key:"needsReply", title:"Needs a Reply", sub:"Click Draft Reply", color:"var(--green)"},
   {key:"routedTeam", title:"Routed to Team", sub:"Sales / Bernice", color:"var(--blue)"},
   {key:"flags", title:"Flags", sub:"Action, not email", color:"var(--red)"},
   {key:"automated", title:"Automated", sub:"FYI only", color:"var(--grey)"}
 ];
 
-const LS_DONE = "tgs_inbox_done_v1";
-const LS_COLLAPSE = "tgs_inbox_collapse_v1";
-const getLS = k => { try{ return JSON.parse(localStorage.getItem(k)||"{}"); }catch(e){ return {}; } };
-const setLS = (k,v) => { try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} };
-const esc = t => (t||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
-const cardId = c => (c.company+"|"+c.subject).toLowerCase();
-const CARD_INDEX = {};
+var LS_DONE = "tgs_inbox_done_v2";
+var LS_COLLAPSE = "tgs_inbox_collapse_v2";
+function getLS(k){ try{ return JSON.parse(localStorage.getItem(k) || "{}"); }catch(e){ return {}; } }
+function setLS(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+function esc(t){ return (t==null?"":String(t)).replace(/[&<>"]/g, function(c){ return ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"})[c]; }); }
+function keyOf(c){ return (c.company + "|" + c.subject).toLowerCase(); }
+
+var CARD_INDEX = {};
+var IDX = 0;
+
+function cardHTML(c){
+  var id = "c" + (IDX++);
+  CARD_INDEX[id] = c;
+  var k = keyOf(c);
+  var done = getLS(LS_DONE)[k] ? " done" : "";
+  var checked = getLS(LS_DONE)[k] ? "checked" : "";
+  var link = c.threadId ? threadUrl(c.threadId) : (c.q ? searchUrl(c.q) : GMAIL + "inbox");
+  var linkLabel = c.threadId ? "Open thread &rarr;" : "Find in Gmail &rarr;";
+  var noteCls = c.ok ? "c-note ok" : "c-note";
+  var actions = "";
+  if(c.cat !== "flag"){
+    actions = '<div class="actions"><button class="genbtn" onclick="draftReply(\'' + id + '\',this)">Draft Reply</button></div>';
+  }
+  var who = c.who ? '<div class="c-who">' + esc(c.who) + '</div>' : "";
+  var note = c.note ? '<div class="' + noteCls + '">' + esc(c.note) + '</div>' : "";
+  return '<div class="card' + done + '" data-id="' + id + '" data-key="' + esc(k) + '" data-text="' + esc((c.company + " " + c.subject + " " + (c.who||"") + " " + c.snippet).toLowerCase()) + '">' +
+    '<div class="c-top"><span class="tag t-' + c.cat + '">' + esc(c.company) + '</span></div>' +
+    '<div class="c-subj">' + esc(c.subject) + '</div>' + who +
+    '<div class="c-snip">' + esc(c.snippet) + '</div>' + note + actions +
+    '<div class="c-foot"><label class="chk"><input type="checkbox" ' + checked + ' onchange="toggleDone(\'' + esc(k) + '\',this)"> handled</label>' +
+    '<a href="' + link + '" target="_blank" rel="noopener">' + linkLabel + '</a></div></div>';
+}
+
+function colHTML(col, cards){
+  var collapsed = getLS(LS_COLLAPSE)[col.key] ? " collapsed" : "";
+  var body, count;
+  if(col.key === "automated"){
+    count = window.INBOX_DATA.columns.automatedCount || 0;
+    body = '<div class="autobox"><div class="num">' + count + '</div><div class="lbl">automated emails since the last sweep, no action needed</div></div>';
+  } else {
+    count = cards.length;
+    body = cards.length ? cards.map(cardHTML).join("") : '<div class="empty">Nothing here.</div>';
+  }
+  return '<div class="col' + collapsed + '" data-key="' + col.key + '">' +
+    '<div class="col-head" style="border-top-color:' + col.color + '" onclick="toggleCol(\'' + col.key + '\')">' +
+    '<div><h3>' + col.title + '</h3><div class="csub">' + col.sub + '</div></div>' +
+    '<div class="h-r"><span class="countpill">' + count + '</span><span class="chev">&#9660;</span></div></div>' +
+    '<div class="col-body">' + body + '</div></div>';
+}
+
+function render(){
+  IDX = 0; CARD_INDEX = {};
+  var cols = window.INBOX_DATA.columns;
+  document.getElementById("board").innerHTML = COLS.map(function(col){
+    var cards = col.key === "automated" ? [] : (cols[col.key] || []);
+    return colHTML(col, cards);
+  }).join("");
+  var nr = (cols.needsReply||[]).length, rt = (cols.routedTeam||[]).length, fl = (cols.flags||[]).length;
+  document.getElementById("tallyLabel").textContent = nr + " to reply  ·  " + rt + " routed  ·  " + fl + " flags";
+  var d = new Date(window.INBOX_DATA.generatedAt);
+  document.getElementById("genLabel").textContent = "Snapshot from " + (isNaN(d.getTime()) ? window.INBOX_DATA.generatedAt : d.toLocaleString());
+}
+
+function toggleDone(k, input){
+  var m = getLS(LS_DONE); if(input.checked) m[k]=1; else delete m[k]; setLS(LS_DONE, m);
+  var card = input.closest(".card"); if(card) card.classList.toggle("done", input.checked);
+}
+function toggleCol(key){
+  var m = getLS(LS_COLLAPSE); if(m[key]) delete m[key]; else m[key]=1; setLS(LS_COLLAPSE, m);
+  var el = document.querySelector('.col[data-key="' + key + '"]'); if(el) el.classList.toggle("collapsed");
+}
+var TOAST_T;
+function toast(msg){
+  var t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(TOAST_T); TOAST_T = setTimeout(function(){ t.classList.remove("show"); }, 4200);
+}
+
+async function callTool(name, args){
+  var r = await window.cowork.callMcpTool(name, args);
+  if(r && r.isError) throw new Error("tool");
+  var d = r ? r.structuredContent : null;
+  if(!d && r && r.content && r.content[0] && r.content[0].text){ d = JSON.parse(r.content[0].text); }
+  return d || {};
+}
+
+var REPLY_RULES = "You are drafting an email reply AS Peter Te Hau, Founder of TGS Media. Output ONLY the email body text, nothing else. Rules: no signature, no sign-off, no name, because Gmail auto-appends his signature. Never use em dashes. Warm, direct, concise New Zealand business tone. Open with 'Hey <first name>,' for someone he knows, or 'Hi <first name>,' for a formal or first contact. ROUTING: if this is a sales inquiry or someone wanting services like ads, marketing, an AI receptionist or a voice bot, Peter never takes sales calls, so warmly hand them to his sales team and include this booking link for Keith or Ayla: https://api.leadconnectorhq.com/widget/bookings/ultimate-lead-conversion-call . If an existing client asks for a meeting with Peter, point them to the client WhatsApp group and note that Bernice (bernice@tgsmedia.org) arranges meetings. Otherwise reply normally and helpfully. If a price, number, date, or decision is needed that you cannot know, insert a clear [ FILL IN: ... ] placeholder. Keep it short unless it is a proposal.";
+
+async function draftReply(id, btn){
+  var c = CARD_INDEX[id]; if(!c) return;
+  if(!(window.cowork && window.cowork.callMcpTool && window.cowork.askClaude)){
+    toast("Auto-drafting runs in the Cowork app. Opening this email in Gmail so you can reply there.");
+    window.open(threadUrl(c.threadId), "_blank", "noopener"); return;
+  }
+  btn.disabled = true; btn.textContent = "Drafting...";
+  try{
+    var t = await callTool(GM_SERVER + "get_thread", { threadId: c.threadId });
+    var msgs = t.messages || []; var last = msgs.length ? msgs[msgs.length-1] : {};
+    var ctx = "From: " + (last.sender || c.who || "") + "\nSubject: " + (c.subject || "") +
+      "\n\nTheir message:\n" + String(last.plaintextBody || last.snippet || c.snippet || "").slice(0, 2500);
+    var body = await window.cowork.askClaude(REPLY_RULES, [ctx]);
+    if(body && typeof body === "object"){ body = body.text || body.completion || body.content || ""; }
+    body = String(body || "").trim();
+    if(!body){ throw new Error("empty"); }
+    var subject = /^re:/i.test(c.subject) ? c.subject : ("Re: " + c.subject);
+    var args = { to: c.to || [], subject: subject, body: body };
+    if(c.cc && c.cc.length){ args.cc = c.cc; }
+    if(c.replyTo){ args.replyToMessageId = c.replyTo; }
+    var res = await window.cowork.callMcpTool(GM_SERVER + "create_draft", args);
+    if(res && res.isError){ throw new Error("draft"); }
+    btn.textContent = "Draft created ✓"; btn.classList.add("created");
+    toast("Reply drafted in Gmail. Open Drafts to review and send.");
+  }catch(e){
+    btn.disabled = false; btn.textContent = "Draft Reply";
+    toast("Could not auto-draft here. Opening the email in Gmail.");
+    window.open(threadUrl(c.threadId), "_blank", "noopener");
+  }
+}
 
 function syncNow(btn){
   if(window.cowork && window.cowork.runScheduledTask){
-    btn.disabled=true; btn.textContent="Syncing...";
+    btn.disabled = true; btn.textContent = "Syncing...";
     try{ window.cowork.runScheduledTask("morning-inbox-brief"); }catch(e){}
     toast("Sync started. Watch the Cowork chat for the brief. The live dashboard updates in about two minutes.");
-    setTimeout(function(){ btn.disabled=false; btn.textContent="Sync now"; }, 8000);
+    setTimeout(function(){ btn.disabled = false; btn.textContent = "Sync now"; }, 8000);
   } else {
-    btn.disabled=true; btn.textContent="Refreshing...";
+    btn.disabled = true; btn.textContent = "Refreshing...";
     toast("Pulling the latest published board...");
     setTimeout(function(){ location.href = location.pathname + "?t=" + Date.now(); }, 600);
   }
 }
 
-function cardHTML(c){
-  CARD_INDEX[cardId(c)] = c;
-  const done = getLS(LS_DONE)[cardId(c)] ? " done" : "";
-  const checked = getLS(LS_DONE)[cardId(c)] ? "checked" : "";
-  const link = c.threadId ? threadUrl(c.threadId) : (c.q ? searchUrl(c.q) : GM+"inbox");
-  const linkLabel = c.threadId ? "Open thread →" : "Find in Gmail →";
-  const noteCls = c.ok ? "c-note ok" : "c-note";
-  let actions = "";
-  if(c.reply){
-    actions = `<div class="actions">
-      <button class="genbtn" onclick="genDraft('${esc(cardId(c))}',this)">Generate Draft</button>
-      <button class="lnkbtn" onclick="togglePrev('${esc(cardId(c))}')">Preview reply</button>
-    </div>
-    <div class="preview" id="prev-${esc(cardId(c))}">${esc(c.reply.body)}</div>`;
+document.getElementById("search").addEventListener("input", function(e){
+  var q = e.target.value.toLowerCase().trim();
+  var cards = document.querySelectorAll(".card");
+  for(var i=0;i<cards.length;i++){
+    cards[i].style.display = (!q || (cards[i].getAttribute("data-text")||"").indexOf(q) !== -1) ? "" : "none";
   }
-  return `<div class="card${done}" data-id="${esc(cardId(c))}" data-text="${esc((c.company+' '+c.subject+' '+(c.who||'')+' '+c.snippet).toLowerCase())}">
-    <div class="c-top"><span class="tag t-${c.cat}">${esc(c.company)}</span></div>
-    <div class="c-subj">${esc(c.subject)}</div>
-    ${c.who?`<div class="c-who">${esc(c.who)}</div>`:""}
-    <div class="c-snip">${esc(c.snippet)}</div>
-    ${c.note?`<div class="${noteCls}">${esc(c.note)}</div>`:""}
-    ${actions}
-    <div class="c-foot">
-      <label class="chk"><input type="checkbox" ${checked} onchange="toggleDone('${esc(cardId(c))}',this.checked)"> handled</label>
-      <a href="${link}" target="_blank" rel="noopener">${linkLabel}</a>
-    </div>
-  </div>`;
-}
+});
 
-function colHTML(col, cards){
-  const collapsed = getLS(LS_COLLAPSE)[col.key] ? " collapsed" : "";
-  let body;
-  if(col.key === "automated"){
-    body = `<div class="autobox"><div class="num">${window.INBOX_DATA.columns.automatedCount}</div>
-      <div class="lbl">automated emails since the last sweep, no action needed</div></div>`;
-  } else {
-    body = cards.length ? cards.map(cardHTML).join("") : `<div class="empty">Nothing here.</div>`;
-  }
-  const count = col.key==="automated" ? window.INBOX_DATA.columns.automatedCount : cards.length;
-  return `<div class="col${collapsed}" data-key="${col.key}">
-    <div class="col-head" style="border-top-color:${col.color}" onclick="toggleCol('${col.key}')">
-      <div class="h-l"><h3>${col.title}</h3><div class="csub">${col.sub}</div></div>
-      <div class="h-r"><span class="countpill">${count}</span><span class="chev">&#9660;</span></div>
-    </div>
-    <div class="col-body">${body}</div>
-  </div>`;
-}
+render();
 
-function render(){
-  const cols = window.INBOX_DATA.columns;
-  document.getElementById("board").innerHTML = COLS.map(col=>{
-    const cards = col.key==="automated" ? [] : (cols[col.key]||[]);
-    return colHTML(col, cards);
-  }).join("");
-  document.getElementById("tallyLabel").textContent =
-    `${(cols.replyReady||[]).length} reply ready  ·  ${(cols.needsInput||[]).length} need input  ·  ${(cols.routedTeam||[]).length} routed  ·  ${(cols.flags||[]).length} flags`;
-  const d = new Date(window.INBOX_DATA.generatedAt);
-  document.getElementById("genLabel").textContent = "Snapshot from " + (isNaN(d)? window.INBOX_DATA.generatedAt : d.toLocaleString());
-}
+var DOMAIN = { "iloannz.com":["client","iLoan NZ"],"plumbquick.co.nz":["client","PlumbQuick"],
+ "loanmarket.com.au":["client","Loan Market"],"ebbett.co.nz":["client","Ebbett"],
+ "penguinfinance.co.nz":["client","Penguin"],"mavcorefinance.com.au":["client","Mavcore"],
+ "mortgagedesign.co.nz":["client","Mortgage Design"],"anchorlight.co.nz":["client","Anchorlight"],
+ "vipdentalclinic.com.au":["client","VIP Dental"],"sustainablees.com.au":["client","Sustainable ES"],
+ "select.biz":["client","Select"],"setupmyoffshore.com.au":["partner","SUMO"],
+ "voiceclouddigital.com.au":["prospect","Voice Cloud"],"gohighlevel.com":["vendor","GoHighLevel"],
+ "synthflow.ai":["vendor","SynthFlow"],"carestack.com":["vendor","CareStack"],"systime.co.nz":["vendor","Systime"],
+ "smartit.co.nz":["vendor","SmartIT"],"icib.co.nz":["vendor","ICIB"],"tgsmedia.org":["team","Team"],
+ "dangerdigital.co.nz":["team","Matt"] };
+var NOISE = ["noreply","no-reply","notifications@","mailer-daemon","drive-shares","msgsndr","leadconnector",
+ "facebookmail","zapier","fathom.video","mysmsgateway","make.com","ird.govt.nz","post.xero.com","receipts@",
+ "billing@","bookit@","leandata","hail.to","statuspage","netlify","twilio","seekbusiness","stripe.com","andybay.ac.nz"];
+function classify(s){ s=(s||"").toLowerCase(); for(var k in DOMAIN){ if(s.indexOf(k)!==-1) return DOMAIN[k]; } return ["vendor","External"]; }
+function isNoise(s){ s=(s||"").toLowerCase(); for(var i=0;i<NOISE.length;i++){ if(s.indexOf(NOISE[i])!==-1) return true; } return false; }
 
-function toggleDone(id, val){
-  const m = getLS(LS_DONE); if
+async function liveRefresh(){
+  if(!(window.cowork && window.cowork.callMcpTool)){ return; }
+  document.getElementById("modeLabel").textContent = "Live (Cowork)";
+  try{
+    var known = {};
+    var cols = window.INBOX_DATA.columns;
+    ["needsReply","routedTeam"].forEach(function(kk){ (cols[kk]||[]).forEach(function(c){ if(c.threadId) known[c.threadId]=1; }); });
+    var d = await callTool(GM_SERVER + "search_threads", { query: "in:inbox newer_than:2d -from:me", pageSize: 40 });
+    var fresh = [];
+    (d.threads||[]).forEach(function(t){
+      var m = t.messages || []; if(!m.length) return;
+      var last = m[m.length-1]; var snd = last.sender || "";
+      if(snd.indexOf("peter@tgsmedia.org")!==-1 || isNoise(snd)) return;
+      if(known[t.id]) return;
+      var cc = classify(snd);
+      fresh.push({ co: cc[1], subject: last.subject || "(no subject)", id: t.id });
+    });
+    if(fresh.length){
+      var b = document.getElementById("liveBanner"); b.style.display = "block";
+      b.innerHTML = "<h4>" + fresh.length + " new since this snapshot</h4>" +
+        fresh.slice(0,12).map(function(f){ return "<div>&bull; <b>" + esc(f.co) + "</b> &mdash; " + esc(f.subject) +
+          ' <a href="' + threadUrl(f.id) + '" target="_blank" rel="noopener">open &rarr;</a></div>'; }).join("");
+    }
+    document.getElementById("modeLabel").textContent = "Live (Cowork) · refreshed";
+  }catch(e){ }
+}
+liveRefresh();
+</script>
+</body>
+</html>
