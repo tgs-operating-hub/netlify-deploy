@@ -207,8 +207,8 @@ function syncNow(btn){
   if(window.cowork && window.cowork.runScheduledTask){
     btn.disabled=true; btn.textContent="Syncing...";
     try{ window.cowork.runScheduledTask("morning-inbox-brief"); }catch(e){}
-    toast("Sync started. Triaging your inbox and rebuilding the board, this refreshes in about two minutes.");
-    setTimeout(function(){ location.reload(); }, 120000);
+    toast("Sync started. Watch the Cowork chat for the brief. The live dashboard updates in about two minutes.");
+    setTimeout(function(){ btn.disabled=false; btn.textContent="Sync now"; }, 8000);
   } else {
     btn.disabled=true; btn.textContent="Refreshing...";
     toast("Pulling the latest published board...");
