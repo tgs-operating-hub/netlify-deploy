@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TGS Media | Inbox Command</title>
+<style>
+  :root{
+    --bg:#08080a; --panel:#121216; --panel2:#17171c; --line:#26262d;
+    --txt:#f4f4f6; --muted:#8c8c97; --accent:#19E37D;
+    --green:#19E37D; --amber:#ffb020; --blue:#6b9bff; --red:#ff5c5c; --grey:#8c8c97;
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    padding:16px 22px;border-bottom:1px solid var(--line);background:#050506;position:sticky;top:0;z-index:20;}
+  .brand{display:flex;align-items:center;gap:14px;}
+  .logo{font-weight:800;letter-spacing:2px;font-size:20px;}
+  .logo .t{color:var(--txt);} .logo .accent{color:var(--accent);}
+  .divider{width:1px;height:26px;background:var(--line);}
+  .ttl{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);font-weight:700;}
+  .ttl .big{display:block;font-size:15px;letter-spacing:1.5px;color:var(--txt);margin-top:2px;}
+  .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .search{background:var(--panel);border:1px solid var(--line);color:var(--txt);border-radius:8px;
+    padding:8px 12px;font-size:13px;width:190px;outline:none;}
+  .search:focus{border-color:var(--accent);}
+  .gbtn{background:var(--accent);color:#04130b;text-decoration:none;font-weight:700;font-size:13px;
+    padding:9px 15px;border-radius:8px;white-space:nowrap;border:none;cursor:pointer;}
+  .gbtn:hover{filter:brightness(1.08);}
+  .statusline{padding:9px 22px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line);
+    background:#0b0b0d;display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle;}
+  .livebanner{margin:14px 22px 0;padding:12px 14px;border:1px solid var(--accent);border-radius:10px;
+    background:rgba(25,227,125,.07);font-size:13px;display:none;}
+  .livebanner h4{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);}
+  .livebanner a{color:var(--blue);text-decoration:none;} .livebanner a:hover{text-decoration:underline;}
+  .board{display:flex;gap:16px;padding:18px 22px 60px;overflow-x:auto;align-items:flex-start;}
+  .col{flex:0 0 320px;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .col.collapsed .col-body{display:none;}
+  .col-head{padding:14px 15px;border-bottom:1px solid var(--line);cursor:pointer;
+    border-top:3px solid var(--grey);display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+  .col-head .h-l h3{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;}
+  .col-head .h-l .csub{font-size:11px;color:var(--muted);margin-top:3px;}
+  .col-head .h-r{display:flex;align-items:center;gap:9px;}
+  .countpill{background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:2px 10px;
+    font-size:12px;font-weight:700;color:var(--txt);}
+  .chev{color:var(--muted);font-size:14px;transition:transform .15s;}
+  .col.collapsed .chev{transform:rotate(-90deg);}
+  .col-body{padding:12px;display:flex;flex-direction:column;gap:11px;min-height:30px;}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px 13px;
+    transition:border-color .15s,opacity .15s;}
+  .card:hover{border-color:#3a3a44;}
+  .card.done{opacity:.45;}
+  .card.done .c-subj{text-decoration:line-through;}
+  .c-top{display:flex;align-items:center;gap:7px;margin-bottom:7px;flex-wrap:wrap;}
+  .tag{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:3px 7px;border-radius:5px;}
+  .t-client{background:rgba(107,155,255,.16);color:#a9c4ff;}
+  .t-prospect{background:rgba(25,227,125,.16);color:#7ff0bb;}
+  .t-partner{background:rgba(193,140,255,.16);color:#d6b8ff;}
+  .t-vendor{background:rgba(255,176,32,.16);color:#ffd089;}
+  .t-team{background:rgba(255,255,255,.10);color:#d3d3da;}
+  .t-flag{background:rgba(255,92,92,.16);color:#ffadad;}
+  .c-subj{font-weight:700;font-size:13.5px;line-height:1.35;color:#fff;}
+  .c-who{font-size:11.5px;color:var(--muted);margin-top:2px;}
+  .c-snip{font-size:12.5px;color:#b9b9c2;margin-top:7px;line-height:1.45;}
+  .c-note{margin-top:9px;font-size:11.5px;font-weight:600;color:var(--amber);}
+  .c-note.ok{color:var(--green);}
+  .actions{display:flex;align-items:center;gap:8px;margin-top:11px;flex-wrap:wrap;}
+  .genbtn{background:var(--accent);color:#04130b;border:none;border-radius:7px;padding:7px 12px;
+    font-size:12px;font-weight:800;cursor:pointer;}
+  .genbtn:hover{filter:brightness(1.08);}
+  .genbtn:disabled{opacity:.7;cursor:default;}
+  .genbtn.created{background:#1f6b45;color:#cdebd9;}
+  .lnkbtn{background:none;border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:7px 10px;
+    font-size:12px;cursor:pointer;}
+  .lnkbtn:hover{border-color:#3a3a44;color:var(--txt);}
+  .preview{display:none;margin-top:10px;background:#0c0c0f;border:1px solid var(--line);border-radius:8px;
+    padding:10px 11px;font-size:12px;color:#cfcfd6;white-space:pre-wrap;line-height:1.5;}
+  .preview.open{display:block;}
+  .c-foot{display:flex;align-items:center;justify-content:space-between;margin-top:11px;
+    border-top:1px solid var(--line);padding-top:9px;}
+  .c-foot a{font-size:12px;color:var(--blue);text-decoration:none;font-weight:600;}
+  .c-foot a:hover{text-decoration:underline;}
+  .chk{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);cursor:pointer;user-select:none;}
+  .chk input{accent-color:var(--accent);}
+  .empty{color:var(--muted);font-size:12.5px;text-align:center;padding:14px 6px;}
+  .autobox{padding:18px 14px;text-align:center;}
+  .autobox .num{font-size:34px;font-weight:800;color:var(--muted);}
+  .autobox .lbl{font-size:12px;color:var(--muted);margin-top:4px;}
+  footer{padding:20px 22px 40px;color:#55555f;font-size:11px;text-align:center;}
+  #toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:#1a1a20;border:1px solid var(--accent);color:var(--txt);padding:11px 18px;border-radius:10px;
+    font-size:13px;opacity:0;transition:all .25s;z-index:50;pointer-events:none;max-width:90%;}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  ::-webkit-scrollbar{height:10px;width:10px;} ::-webkit-scrollbar-thumb{background:#2a2a31;border-radius:6px;}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo"><span class="t">TGS</span> <span class="accent">MEDIA</span></div>
+      <div class="divider"></div>
+      <div class="ttl">Tactical Growth System<span class="big">INBOX COMMAND</span></div>
+    </div>
+    <div class="controls">
+      <input id="search" class="search" placeholder="Filter cards...">
+      <a class="gbtn" href="https://mail.google.com/mail/u/0/#drafts" target="_blank" rel="noopener">Open Gmail Drafts</a>
+    </div>
+  </div>
+  <div class="statusline">
+    <span><span class="dot"></span><span id="modeLabel">Snapshot</span></span>
+    <span id="genLabel"></span>
+    <span id="tallyLabel"></span>
+  </div>
+
+  <div class="livebanner" id="liveBanner"></div>
+  <div class="board" id="board"></div>
+  <footer>Click Generate Draft to create the reply in Gmail, then open Drafts and send. Nothing is ever sent automatically. Ticking a card marks it handled on this device.</footer>
+  <div id="toast"></div>
+
+<script>
+/*INBOX_DATA_START*/
+window.INBOX_DATA = {
+  "generatedAt": "2026-06-10T11:30:00+12:00",
+  "stats": { "needAction": 4, "routed": 1, "flags": 6 },
+  "columns": {
+    "replyReady": [
+      { "company":"Select Cleaning", "cat":"client", "who":"Antony Lewis", "subject":"Facebook lead Data",
+        "snippet":"Sent the April-to-date Facebook lead results with won, lost and unsuitable notes. Suggested reply thanks him and says you will review with Bernice.",
+        "threadId":"19ea57a002e831e3", "replyTo":"19ea57a002e831e3", "note":"Reply ready", "ok":true,
+        "reply": { "to":["antony.l@select.biz"], "cc":["udita.s@select.biz","bernice@tgsmedia.org"],
+          "subject":"Re: Facebook lead Data",
+          "body":"Hey Antony,\n\nThanks for putting this together. The notes against each lead are exactly what we need to see what is converting and where to tighten the targeting.\n\nI will go through it with Bernice and come back to you with anything we want to adjust on the campaign side." } }
+    ],
+    "needsInput": [
+      { "company":"Keith / SEEK", "cat":"team", "who":"Keith Banfield", "subject":"SEEK Business Account Call Genius Pro is Overdue",
+        "snippet":"AUD $2,992 in arrears on the Call Genius Pro SEEK account, 30+ days. Reply is holding for your call.",
+        "threadId":"19ea5b3cfe73f503", "replyTo":"19ea5b3cfe73f503", "note":"Fill the decision before sending",
+        "reply": { "to":["results@marketingsecrets.com.au"], "cc":[],
+          "subject":"Re: FW: SEEK Business Account Call Genius Pro is Overdue",
+          "body":"Hey Keith,\n\nYes I have seen it.\n\n[ FILL IN: how to handle the $2,992 SEEK arrears, pay it down now or query the charges since the account was paused for June ]" } },
+      { "company":"SUMO", "cat":"partner", "who":"Jethro Ingeniero", "subject":"Client Success Enablement Specialist (Candidate Endorsement)",
+        "snippet":"Chasing your feedback on candidate Martin for the CGP support role.",
+        "threadId":"19e967a28ecafbdf", "replyTo":"19eab04423622903", "note":"Fill the decision before sending",
+        "reply": { "to":["jethro.ingeniero@setupmyoffshore.com.au"], "cc":["jess@setupmyoffshore.com.au","karen.cristobal@setupmyoffshore.com.au","jacel.jose@setupmyoffshore.com.au","careers@setupmyoffshore.com.au"],
+          "subject":"Re: SUMO x Call Genius Pro - Client Success Enablement Specialist (Candidate Endorsement)",
+          "body":"Hi Jethro,\n\nThanks for the follow up, and sorry for the delay coming back to you on Martin.\n\n[ FILL IN: your decision on Martin, proceed to interview, endorse and onboard, or pass, plus any timing ]" } }
+    ],
+    "routedTeam": [
+      { "company":"Voice Cloud (Ray White)", "cat":"prospect", "who":"David & Chris", "subject":"Potential Customer - Ray White Real Estate",
+        "snippet":"New prospect wanting an AI receptionist with TAPI, Property Me and Snug. Suggested reply routes them to the Keith and Ayla booking link, no time from you.",
+        "threadId":"19eab04b1577b621", "replyTo":"19eab04b1577b621", "note":"Routed to sales", "ok":true,
+        "reply": { "to":["hello@voiceclouddigital.com.au"], "cc":["sales@voiceclouddigital.com.au"],
+          "subject":"Re: Potential Customer - Ray White Real Estate",
+          "body":"Hi David and Chris,\n\nGood to hear from you, and yes I remember the call. This is a great fit for what we do.\n\nI don't sit in on the initial scoping calls myself, but my sales lead will look after you on this one. An AI receptionist that takes the calls and pulls live status from TAPI, Property Me and Snug is exactly their wheelhouse.\n\nGrab a time that suits here and they will map it all out with you:\nhttps://api.leadconnectorhq.com/widget/bookings/ultimate-lead-conversion-call\n\nLooking forward to getting this one moving." } }
+    ],
+    "flags": [
+      { "company":"Inland Revenue", "cat":"flag", "subject":"GST default assessment",
+        "snippet":"New IRD letter for TGS Media Limited, payment and return required. Log into myIR.",
+        "q":"from:ird.govt.nz", "note":"Time sensitive" },
+      { "company":"Make", "cat":"flag", "subject":"Pipedrive to GHL sync stopped",
+        "snippet":"Contact-creation scenario deactivated on an error. New contacts may not be syncing.",
+        "q":"from:make.com", "note":"Needs a restart" },
+      { "company":"SMS Gateway", "cat":"flag", "subject":"Two Android gateways offline",
+        "snippet":"myCRMSIM phones reported offline. This is the client SMS sending path.",
+        "q":"from:mysmsgateway.app", "note":"Check the devices" },
+      { "company":"DangerDigital", "cat":"flag", "subject":"Invoice INV-0282, NZ$6,477.19",
+        "snippet":"COO May revenue share, was due 5 June.", "q":"INV-0282", "note":"Unpaid" },
+      { "company":"SUMO AUS", "cat":"flag", "subject":"Invoice INV-5717, AU$2,301.12",
+        "snippet":"Call Genius Pro, was due 8 June.", "q":"INV-5717", "note":"Unpaid" },
+      { "company":"Google Drive", "cat":"flag", "subject":"Two file access requests",
+        "snippet":"Ayla wants TGS Clients Master File, Matt wants TGS_Revenue_May_2026.",
+        "q":"requesting access", "note":"One click each in Drive" }
+    ],
+    "automatedCount": 22
+  }
+};
+/*INBOX_DATA_END*/
+
+const GM = "https://mail.google.com/mail/u/0/#";
+const threadUrl = id => GM + "inbox/" + id;
+const searchUrl = q => GM + "search/" + encodeURIComponent(q);
+const DRAFT_TOOL = "mcp__541320f4-c73a-48fa-a5e6-b214b56b0fa1__create_draft";
+
+const COLS = [
+  {key:"replyReady", title:"Reply Ready", sub:"One click to draft", color:"var(--green)"},
+  {key:"needsInput", title:"Needs Your Input", sub:"Fill, then draft", color:"var(--amber)"},
+  {key:"routedTeam", title:"Routed to Team", sub:"Sales / Bernice", color:"var(--blue)"},
+  {key:"flags", title:"Flags", sub:"Action, not email", color:"var(--red)"},
+  {key:"automated", title:"Automated", sub:"FYI only", color:"var(--grey)"}
+];
+
+const LS_DONE = "tgs_inbox_done_v1";
+const LS_COLLAPSE = "tgs_inbox_collapse_v1";
+const getLS = k => { try{ return JSON.parse(localStorage.getItem(k)||"{}"); }catch(e){ return {}; } };
+const setLS = (k,v) => { try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} };
+const esc = t => (t||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const cardId = c => (c.company+"|"+c.subject).toLowerCase();
+const CARD_INDEX = {};
+
+function cardHTML(c){
+  CARD_INDEX[cardId(c)] = c;
+  const done = getLS(LS_DONE)[cardId(c)] ? " done" : "";
+  const checked = getLS(LS_DONE)[cardId(c)] ? "checked" : "";
+  const link = c.threadId ? threadUrl(c.threadId) : (c.q ? searchUrl(c.q) : GM+"inbox");
+  const linkLabel = c.threadId ? "Open thread →" : "Find in Gmail →";
+  const noteCls = c.ok ? "c-note ok" : "c-note";
+  let actions = "";
+  if(c.reply){
+    actions = `<div class="actions">
+      <button class="genbtn" onclick="genDraft('${esc(cardId(c))}',this)">Generate Draft</button>
+      <button class="lnkbtn" onclick="togglePrev('${esc(cardId(c))}')">Preview reply</button>
+    </div>
+    <div class="preview" id="prev-${esc(cardId(c))}">${esc(c.reply.body)}</div>`;
+  }
+  return `<div class="card${done}" data-id="${esc(cardId(c))}" data-text="${esc((c.company+' '+c.subject+' '+(c.who||'')+' '+c.snippet).toLowerCase())}">
+    <div class="c-top"><span class="tag t-${c.cat}">${esc(c.company)}</span></div>
+    <div class="c-subj">${esc(c.subject)}</div>
+    ${c.who?`<div class="c-who">${esc(c.who)}</div>`:""}
+    <div class="c-snip">${esc(c.snippet)}</div>
+    ${c.note?`<div class="${noteCls}">${esc(c.note)}</div>`:""}
+    ${actions}
+    <div class="c-foot">
+      <label class="chk"><input type="checkbox" ${checked} onchange="toggleDone('${esc(cardId(c))}',this.checked)"> handled</label>
+      <a href="${link}" target="_blank" rel="noopener">${linkLabel}</a>
+    </div>
+  </div>`;
+}
+
+function colHTML(col, cards){
+  const collapsed = getLS(LS_COLLAPSE)[col.key] ? " collapsed" : "";
+  let body;
+  if(col.key === "automated"){
+    body = `<div class="autobox"><div class="num">${window.INBOX_DATA.columns.automatedCount}</div>
+      <div class="lbl">automated emails since the last sweep, no action needed</div></div>`;
+  } else {
+    body = cards.length ? cards.map(cardHTML).join("") : `<div class="empty">Nothing here.</div>`;
+  }
+  const count = col.key==="automated" ? window.INBOX_DATA.columns.automatedCount : cards.length;
+  return `<div class="col${collapsed}" data-key="${col.key}">
+    <div class="col-head" style="border-top-color:${col.color}" onclick="toggleCol('${col.key}')">
+      <div class="h-l"><h3>${col.title}</h3><div class="csub">${col.sub}</div></div>
+      <div class="h-r"><span class="countpill">${count}</span><span class="chev">&#9660;</span></div>
+    </div>
+    <div class="col-body">${body}</div>
+  </div>`;
+}
+
+function render(){
+  const cols = window.INBOX_DATA.columns;
+  document.getElementById("board").innerHTML = COLS.map(col=>{
+    const cards = col.key==="automated" ? [] : (cols[col.key]||[]);
+    return colHTML(col, cards);
+  }).join("");
+  document.getElementById("tallyLabel").textContent =
+    `${(cols.replyReady||[]).length} reply ready  ·  ${(cols.needsInput||[]).length} need input  ·  ${(cols.routedTeam||[]).length} routed  ·  ${(cols.flags||[]).length} flags`;
+  const d = new Date(window.INBOX_DATA.generatedAt);
+  document.getElementById("genLabel").textContent = "Snapshot from " + (isNaN(d)? window.INBOX_DATA.generatedAt : d.toLocaleString());
+}
+
+function toggleDone(id, val){
+  const m = getLS(LS_DONE); if
