@@ -125,147 +125,48 @@ function searchUrl(q){ return GMAIL + "search/" + encodeURIComponent(q); }
 
 /*INBOX_DATA_START*/
 window.INBOX_DATA = {
-  "generatedAt": "2026-06-11T09:51:38+12:00",
+  "generatedAt": "2026-06-15T10:48:51+12:00",
   "columns": {
     "needsReply": [
       {
-        "company": "ICIB",
+        "company": "Sustainable ES",
         "cat": "client",
-        "who": "Paul Callaghan",
-        "subject": "Service Ticket #3649309 - Lead Connector / Calendly",
-        "snippet": "Hit a wall on Lead Connector access. Paul wants to go with Calendly and is asking you to arrange a meeting to finalise.",
-        "threadId": "19e6765ea94251dc",
-        "replyTo": "19eaf38cc1b313ea",
+        "who": "Yacira (Jess) Zurita",
+        "subject": "FW: TGS Meeting Summary - 05.06.256",
+        "snippet": "Following up on the 05.06 meeting: hasn't received a meeting invite and asks if it is working, and wants the updated Google sheet sent through as discussed.",
+        "threadId": "19eb01190d3008fb",
+        "replyTo": "19eb01190d3008fb",
         "to": [
-          "paul.callaghan@icib.co.nz"
+          "yacira@sustainablees.com.au"
         ],
         "cc": [
-          "bernice@tgsmedia.org"
+          "andrew@sustainablees.com.au",
+          "alejandra@sustainablees.com.au"
         ],
-        "context": "Hi Peter, Looks like we have hit a wall again. Let's go back to the plan of using Calendly and move forward. Please arrange another time to meet with me to finalise this.",
-        "note": "Client meeting request, route to Bernice to set the time"
-      },
-      {
-        "company": "Select Cleaning",
-        "cat": "client",
-        "who": "Antony Lewis",
-        "subject": "Facebook lead Data",
-        "snippet": "Sent the April-to-date Facebook lead results with won, lost and unsuitable notes, and asked if you need anything else.",
-        "threadId": "19ea57a002e831e3",
-        "replyTo": "19ea57a002e831e3",
-        "to": [
-          "antony.l@select.biz"
-        ],
-        "cc": [
-          "udita.s@select.biz",
-          "bernice@tgsmedia.org"
-        ],
-        "note": "Reply when you can"
-      },
-      {
-        "company": "Keith / SEEK",
-        "cat": "team",
-        "who": "Keith Banfield",
-        "subject": "SEEK Business Account Call Genius Pro is Overdue",
-        "snippet": "AUD $2,992 in arrears on the Call Genius Pro SEEK account, 30+ days. Keith asks how you want it handled.",
-        "threadId": "19ea5b3cfe73f503",
-        "replyTo": "19ea5b3cfe73f503",
-        "to": [
-          "results@marketingsecrets.com.au"
-        ],
-        "cc": [],
-        "note": "Your call: pay it or query it"
-      },
-      {
-        "company": "SUMO",
-        "cat": "partner",
-        "who": "Jethro Ingeniero",
-        "subject": "Client Success Enablement Specialist (Candidate Endorsement)",
-        "snippet": "Chasing your feedback on candidate Martin for the CGP support role.",
-        "threadId": "19e967a28ecafbdf",
-        "replyTo": "19eab04423622903",
-        "to": [
-          "jethro.ingeniero@setupmyoffshore.com.au"
-        ],
-        "cc": [
-          "jess@setupmyoffshore.com.au",
-          "karen.cristobal@setupmyoffshore.com.au",
-          "jacel.jose@setupmyoffshore.com.au",
-          "careers@setupmyoffshore.com.au"
-        ],
-        "note": "Your decision on Martin"
+        "context": "Hi Peter, I trust this finds you well. Just touching base here as I haven't received any invite to any meeting. Is it working? Also, could you please send the updated Google sheet as discussed? Thanks, Yacira (Jess) Zurita. --- Background from the 05.06 meeting summary she is following up on: 1) Peter running a test on IVR so the system recognises and properly classifies IVR calls. 2) All emails sent by Kate to be copied to energy@sustainable.com.au. 3) There are 1879 human-connected calls that have gone to voicemail - please confirm these have not been charged. 4) Please update the Google sheet once a week.",
+        "note": "Send the updated sheet, confirm the voicemail billing, sort the meeting invite"
       }
     ],
-    "routedTeam": [
-      {
-        "company": "Voice Cloud (Ray White)",
-        "cat": "prospect",
-        "who": "David & Chris",
-        "subject": "Potential Customer - Ray White Real Estate",
-        "snippet": "New prospect wanting an AI receptionist with TAPI, Property Me and Snug. Draft Reply will route them to the Keith and Ayla booking link, no time from you.",
-        "threadId": "19eab04b1577b621",
-        "replyTo": "19eab04b1577b621",
-        "to": [
-          "hello@voiceclouddigital.com.au"
-        ],
-        "cc": [
-          "sales@voiceclouddigital.com.au"
-        ],
-        "note": "Sales, routes to the team",
-        "ok": true
-      }
-    ],
+    "routedTeam": [],
     "flags": [
       {
-        "company": "Inland Revenue",
+        "company": "Stripe",
         "cat": "flag",
-        "subject": "GST default assessment",
-        "snippet": "New IRD letter for TGS Media Limited, payment and return required. Log into myIR.",
-        "q": "from:ird.govt.nz",
-        "note": "Time sensitive"
-      },
-      {
-        "company": "Make",
-        "cat": "flag",
-        "subject": "Pipedrive to GHL sync stopped",
-        "snippet": "Contact-creation scenario deactivated on an error. New contacts may not be syncing.",
-        "q": "from:make.com",
-        "note": "Needs a restart"
+        "subject": "Account balance negative, debit initiated",
+        "snippet": "Stripe reports the account balance is negative and a debit has been initiated from the connected bank account. Check funds are available to cover it.",
+        "q": "from:stripe.com newer_than:2d",
+        "note": "Make sure the bank account can cover the debit"
       },
       {
         "company": "SMS Gateway",
         "cat": "flag",
         "subject": "Two Android gateways offline",
-        "snippet": "myCRMSIM phones reported offline. This is the client SMS sending path.",
-        "q": "from:mysmsgateway.app",
-        "note": "Check the devices"
-      },
-      {
-        "company": "DangerDigital",
-        "cat": "flag",
-        "subject": "Invoice INV-0282, NZ$6,477.19",
-        "snippet": "COO May revenue share, was due 5 June.",
-        "q": "INV-0282",
-        "note": "Unpaid"
-      },
-      {
-        "company": "SUMO AUS",
-        "cat": "flag",
-        "subject": "Invoice INV-5717, AU$2,301.12",
-        "snippet": "Call Genius Pro, was due 8 June.",
-        "q": "INV-5717",
-        "note": "Unpaid"
-      },
-      {
-        "company": "Google Drive",
-        "cat": "flag",
-        "subject": "Two file access requests",
-        "snippet": "Ayla wants TGS Clients Master File, Matt wants TGS_Revenue_May_2026.",
-        "q": "requesting access",
-        "note": "One click each in Drive"
+        "snippet": "Two mysmsgateway.app Android connections (devices 5033T and T450H) stopped reporting and are OFFLINE. This is a client SMS sending path.",
+        "q": "from:mysmsgateway.app newer_than:2d",
+        "note": "Check and reconnect the devices"
       }
     ],
-    "automatedCount": 23
+    "automatedCount": 6
   }
 };
 /*INBOX_DATA_END*/
@@ -489,3 +390,4 @@ liveRefresh();
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
