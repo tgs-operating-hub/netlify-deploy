@@ -125,21 +125,29 @@ function searchUrl(q){ return GMAIL + "search/" + encodeURIComponent(q); }
 
 /*INBOX_DATA_START*/
 window.INBOX_DATA = {
-  "generatedAt": "2026-06-25T15:06:38+12:00",
+  "generatedAt": "2026-06-26T17:02:25+12:00",
   "columns": {
     "needsReply": [],
     "routedTeam": [],
     "flags": [
       {
-        "company": "TGS Media (GHL)",
+        "company": "SMS Gateway",
         "cat": "flag",
-        "subject": "Workflow Error Detected In Sub-Account: TGS Media",
-        "snippet": "GoHighLevel reports a workflow error in the TGS Media sub-account. Login and address the issue at your earliest convenience.",
-        "q": "from:info@tgsmedia.org subject:\"Workflow Error\" newer_than:2d",
-        "note": "A GHL workflow in the TGS Media sub-account is erroring. Log into GoHighLevel and fix the failing workflow before it affects automations."
+        "subject": "Important Notification - Android Connection Offline",
+        "snippet": "The Android SMS gateway device (ID b9196c153e431624, model 5033T) stopped reporting activity. Workspace connection marked OFFLINE.",
+        "q": "from:no-reply@mysmsgateway.app newer_than:2d",
+        "note": "SMS gateway device went offline and stopped reporting. Check the phone is powered, online and the app is running so outbound SMS keeps sending."
+      },
+      {
+        "company": "TNZ (SMS provider)",
+        "cat": "flag",
+        "subject": "SMS Issue Late Yesterday Evening",
+        "snippet": "TNZ reports an SMS delivery fault to some NZ mobiles after 5:30pm yesterday. Up to 18 messages (delivered-to-network) may be affected, roughly 80% failed. Fixed around 11pm; TNZ chasing the network.",
+        "q": "from:support@tnz.co.nz newer_than:2d",
+        "note": "Up to 18 NZ SMS may have failed last night (approx 80%). Fault fixed ~11pm, TNZ investigating with the carrier. Check if any client sends need resending."
       }
     ],
-    "automatedCount": 1
+    "automatedCount": 5
   }
 };
 
